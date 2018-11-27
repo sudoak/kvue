@@ -33,6 +33,8 @@
               </b-form>
             </b-col>
         </b-row>
+        <br>
+        <div class="fixed-bottom">KEHKASHAN @ 2018</div>
     </b-container>
   </div>
 </template>

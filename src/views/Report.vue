@@ -85,10 +85,12 @@ export default {
   },
   methods: {
     onSubmit(evt) {
+      NProgress.start();
       evt.preventDefault();
       this.calc = true;
       let a = this.tableData(this.date);
       this.items = a;
+      NProgress.done();
     }
   },
   watch: {

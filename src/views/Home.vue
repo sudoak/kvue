@@ -206,6 +206,7 @@ export default {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     },
     onSubmit(evt) {
+      NProgress.start();
       evt.preventDefault();
       let a = this.mockData(this.date);
 
@@ -219,6 +220,7 @@ export default {
       this.chartTwo.series[1].data = a.two.two;
       this.chartTwo.series[2].data = a.two.three;
       this.chartTwo.xAxis.categories = a.two.label;
+      NProgress.done();
     }
   },
   created() {
