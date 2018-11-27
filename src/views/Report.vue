@@ -90,6 +90,11 @@ export default {
       let a = this.tableData(this.date);
       this.items = a;
     }
+  },
+  watch: {
+    date() {
+      this.calc = false;
+    }
   }
 };
 </script>

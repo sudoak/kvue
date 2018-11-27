@@ -39,81 +39,78 @@
 
 <script>
 // @ is an alias to /src
-import { email, required, minLength } from 'vuelidate/lib/validators'
+import { email, required, minLength } from "vuelidate/lib/validators";
 export default {
-  name: 'home',
-  data(){
-    return{
-      email: '',
-      password: ''
-    }
+  name: "home",
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
   },
-  created(){
-    console.log(this.$moment().format())
-    this.$toasted.show("Please Login", { 
-      icon : {
-            name : 'check'
+  created() {
+    this.$toasted.show("Please Login", {
+      icon: {
+        name: "check"
       },
-      theme: "outline", 
-      position: "top-right", 
-      duration : 2000,
-      type: 'info'
-    })
-    if(this.$store.getters.getAuth){
-      this.$router.push({name:'home'})
+      theme: "outline",
+      position: "top-right",
+      duration: 2000,
+      type: "info"
+    });
+    if (this.$store.getters.getAuth) {
+      this.$router.push({ name: "home" });
     }
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      if(this.email === 'admin@admin.com' && this.password === '123456'){
-        this.$store.dispatch('setAuth')
+      if (this.email === "admin@admin.com" && this.password === "123456") {
+        this.$store.dispatch("setAuth");
         //alert(this.$store.getters.getAuth)
-        this.$router.push('/')
-      }else{
-        this.toast('Please enter correct login details','ban')
+        this.$router.push("/");
+      } else {
+        this.toast("Please enter correct login details", "ban");
       }
-
     },
-    toast(msg,icon){
-      this.$toasted.show(msg, { 
-          icon : {
-                name : icon
-          },
-          theme: "outline", 
-          position: "top-right", 
-          duration : 3000,
-          type: 'error'
-      })
+    toast(msg, icon) {
+      this.$toasted.show(msg, {
+        icon: {
+          name: icon
+        },
+        theme: "outline",
+        position: "top-right",
+        duration: 3000,
+        type: "error"
+      });
     }
   },
   computed: {
-    isAuth(){
-      return this.$store.getAuth
+    isAuth() {
+      return this.$store.getAuth;
     }
   },
   validations: {
-      email: {
-        required,
-        email
-      },
-      password: {
-        required,
-        minLength: minLength(6)
-      }
-  },    
-  components: {
-  }
-}
+    email: {
+      required,
+      email
+    },
+    password: {
+      required,
+      minLength: minLength(6)
+    }
+  },
+  components: {}
+};
 </script>
 
 <style scoped>
-  .login{
-    margin-top: 30px;
-  }
-  .form{
-    border: 1px solid teal;
-    padding: 30px;
-    background-color: '#EAEACD';
-  }
+.login {
+  margin-top: 30px;
+}
+.form {
+  border: 1px solid teal;
+  padding: 30px;
+  background-color: "#EAEACD";
+}
 </style>
