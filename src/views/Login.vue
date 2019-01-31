@@ -1,40 +1,40 @@
 <template>
   <div>
     <b-container class="login" style="padding:10px">
-        <b-row  align-h="center" class="">
-            <b-col md="4" class="form">
-              <h3>LOGIN</h3>
-              <b-form @submit="onSubmit">
-                <b-form-group>
-                  <b-form-input
-                    type="email"
-                    id="email"
-                    required
-                    v-model="email"
-                    @blur="$v.email.$touch()"
-                    placeholder="Enter Email">
-                  </b-form-input>
-                  <!-- <p v-if="!$v.email.email">Please provide a valid email address.</p>
-                  <p v-if="!$v.email.required">This field must not be empty.</p> -->
-                </b-form-group>
-                <b-form-group>
-                  <b-form-input
-                    type="password"
-                    id="password"
-                    required
-                    v-model="password"
-                    @blur="$v.password.$touch()"
-                    placeholder="Enter Password">
-                  </b-form-input>
-                </b-form-group>
-                <b-form-group>
-                  <b-button type="submit" variant="primary" :size="'lg'" :block=true>Submit</b-button>
-                </b-form-group>
-              </b-form>
-            </b-col>
-        </b-row>
-        <br>
-        <div class="fixed-bottom">KEHKASHAN @ 2018</div>
+      <b-row align-h="center" class>
+        <b-col md="4" class="form">
+          <h3>LOGIN</h3>
+          <b-form @submit="onSubmit">
+            <b-form-group>
+              <b-form-input
+                type="email"
+                id="email"
+                required
+                v-model="email"
+                @blur="$v.email.$touch()"
+                placeholder="Enter Email"
+              ></b-form-input>
+              <!-- <p v-if="!$v.email.email">Please provide a valid email address.</p>
+              <p v-if="!$v.email.required">This field must not be empty.</p>-->
+            </b-form-group>
+            <b-form-group>
+              <b-form-input
+                type="password"
+                id="password"
+                required
+                v-model="password"
+                @blur="$v.password.$touch()"
+                placeholder="Enter Password"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group>
+              <b-button type="submit" variant="primary" :size="'lg'" :block="true">Submit</b-button>
+            </b-form-group>
+          </b-form>
+        </b-col>
+      </b-row>
+      <br>
+      <div class="fixed-bottom">KEHKASHAN @ 2019</div>
     </b-container>
   </div>
 </template>

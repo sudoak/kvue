@@ -2,41 +2,48 @@
   <div>
     <b-container style="padding:10px">
       <b-row>
-          <b-col md="">
-            <b-form inline @submit="onSubmit">
-              <b-input id="inlineFormInputName2" type="date" v-model="date" required />
-              <b-form-select v-model="selected" :options="options" required/>
-              <b-button type="submit" variant="primary">Submit</b-button>
-              <download-excel
-                v-if="calc"
-                class   = "btn btn-default"
-                :data   = "items"
-                :fields = "json_fields"
-                type    = "csv"
-                name    = "kehkashan.xls">
-                <b-button variant="info">Download</b-button>
-              </download-excel>
-            </b-form>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-              <b-table striped hover :items="items" :fields="fields"></b-table>
-          </b-col>
-        </b-row>
-        <br>
-        <div class="fixed-bottom">KEHKASHAN @ 2018</div>
+        <b-col md>
+          <b-form inline @submit="onSubmit">
+            <b-input id="inlineFormInputName2" type="date" v-model="from"/>
+            <b-input id="inlineFormInputName2" type="date" v-model="to"/>
+            <b-form-select v-model="selected" :options="options"/>
+            <b-button type="submit" variant="primary">Submit</b-button>
+            <download-excel
+              v-if="calc"
+              class="btn btn-default"
+              :data="items"
+              :fields="json_fields"
+              type="csv"
+              name="kehkashan.xls"
+            >
+              <b-button variant="info">Download</b-button>
+            </download-excel>
+          </b-form>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-table striped hover :items="items" :fields="fields"></b-table>
+        </b-col>
+      </b-row>
+      <br>
+      <div class="fixed-bottom">KEHKASHAN @ 2019</div>
     </b-container>
   </div>
 </template>
 
 <script>
+import api from "../api";
+import moment from "moment";
+
 export default {
   name: "report",
   data() {
     return {
       calc: false,
       date: "",
+      from: "",
+      to: "",
       selected: null,
       options: [
         { value: null, text: "Please select an option" },
@@ -87,6 +94,15 @@ export default {
     onSubmit(evt) {
       NProgress.start();
       evt.preventDefault();
+      if (
+        this.from &&
+        this.to &&
+        this.selected &&
+        moment(this.from).isBefore(this.to)
+      ) {
+      } else {
+        this.toast("Please select date and device Id", "error", "error");
+      }
       this.calc = true;
       let a = this.tableData(this.date);
       this.items = a;
@@ -97,6 +113,19 @@ export default {
     date() {
       this.calc = false;
     }
+  },
+  created() {
+    api()
+      .get("http://localhost:3000/devices")
+      .then(({ data }) => {
+        if (data.length > 0) {
+          let op = data.data.map(item => {
+            return { value: item, text: item };
+          });
+          op.unshift({ value: null, text: "Please select device Id" });
+          this.options = op;
+        }
+      });
   }
 };
 </script>
