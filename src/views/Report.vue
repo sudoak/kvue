@@ -4,9 +4,11 @@
       <b-row>
         <b-col md>
           <b-form inline @submit="onSubmit">
-            <b-input id="inlineFormInputName2" type="date" v-model="from"/>
-            <b-input id="inlineFormInputName2" type="date" v-model="to"/>
-            <b-form-select v-model="selected" :options="options"/>
+            <span>FROM:</span>
+            <b-input id="inlineFormInputName2" type="date" v-model="from" required/>
+            <span>TO:</span>
+            <b-input id="inlineFormInputName2" type="date" v-model="to" required/>
+            <b-form-select v-model="selected" :options="options" required/>
             <b-button type="submit" variant="primary">Submit</b-button>
             <download-excel
               v-if="calc"
@@ -94,18 +96,46 @@ export default {
     onSubmit(evt) {
       NProgress.start();
       evt.preventDefault();
-      if (
-        this.from &&
-        this.to &&
-        this.selected &&
-        moment(this.from).isBefore(this.to)
-      ) {
+      if (this.from && this.to && this.selected) {
+        if (moment(this.from).isBefore(this.to)) {
+          api()
+            .post("http://localhost:3000/data-report", {
+              sDate: this.from,
+              eDate: this.to,
+              id: this.selected
+            })
+            .then(({ data }) => {
+              if (data.length > 0) {
+                const tableData = data.data.map(item => {
+                  return {
+                    Time: moment(item.timestamp).format(
+                      "YYYY-MM-DD hh:mm:ss A"
+                    ),
+                    Speed: item.speed,
+                    FlowRate: item.flowRate,
+                    TotalizedWeight: item.totalizedWeight
+                  };
+                });
+                this.items = tableData;
+              } else {
+                this.toast(
+                  `Their is no data for device ${
+                    this.selected
+                  } for the dates chosen`,
+                  "error",
+                  "error"
+                );
+              }
+            });
+        } else {
+          this.toast("Please select proper FROM-TO Date", "error", "error");
+        }
       } else {
         this.toast("Please select date and device Id", "error", "error");
       }
       this.calc = true;
-      let a = this.tableData(this.date);
-      this.items = a;
+      // let a = this.tableData(this.date);
+      // this.items = a;
       NProgress.done();
     }
   },

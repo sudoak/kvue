@@ -95,7 +95,7 @@ Vue.mixin({
         };
         d.push(temp);
       }
-      console.log(d);
+      // console.log(d);
       return d;
     }
   }
